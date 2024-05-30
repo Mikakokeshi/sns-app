@@ -21,6 +21,7 @@ function Home() {
     const createPost = async () => {
       const post = await postRepository.create(content, currentUser.id)
       console.log('post',post);
+      setPosts([{...post, userId: currentUser.id, userName: currentUser.userName}, ...posts]);
       setContent('');
     }
 
