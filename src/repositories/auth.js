@@ -27,5 +27,5 @@ export const authRepository = {
             ...data.session.user,
             userName: data.session.user.user_metadata.name,
         } 
-    }
+    },
 }

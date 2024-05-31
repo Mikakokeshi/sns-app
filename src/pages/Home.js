@@ -4,14 +4,16 @@ import { SessionContext } from '../SessionProvider'
 import { SideMenu } from '../components/SideMenu';
 import { postRepository } from '../repositories/post';
 import { Post } from '../components/Post';
+import { Pagination } from '../components/Pagination';
 
-
+const limit = 5;
 
 function Home() {
     const {currentUser} = useContext(SessionContext);
 
-    const [content, setContent] = useState('')
-    const [posts, setPosts] = useState([])
+    const [content, setContent] = useState('');
+    const [posts, setPosts] = useState([]);
+    const [page, setPage] = useState(1);
 
     useEffect(()=>{
       fetchPosts();
@@ -25,9 +27,26 @@ function Home() {
       setContent('');
     }
 
-    const fetchPosts = async () => {
-      const posts = await postRepository.find();
+    const fetchPosts = async (page) => {
+      const posts = await postRepository.find(page, limit);
       setPosts(posts);
+    }
+
+    const moveToNext = async()=> {
+      const nextPage = page + 1;
+      await fetchPosts(nextPage);
+      setPage(nextPage);
+    }
+
+    const moveToPrev = async()=> {
+      const prevPage = page - 1;
+      await fetchPosts(prevPage);
+      setPage(prevPage);
+    }
+  
+    const deletePost = async(postId) => {
+      await postRepository.delete(postId);
+      setPosts(posts.filter((post) => post.id !== postId))
     }
 
     if(currentUser == null ) return <Navigate replace to ="/signin"/>;
@@ -58,8 +77,9 @@ function Home() {
             </div>
             <div className="mt-4">
               {posts.map((post) => 
-                (<Post key={post.id} post={post}/>))}
+                (<Post key={post.id} post={post} onDelete={deletePost} />))}
             </div>
+            <Pagination onPrev={ page > 1 ? moveToPrev: null} onNext={posts.length >= limit ? moveToNext : null} />
           </div>
         <SideMenu />
         </div>
