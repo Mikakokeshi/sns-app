@@ -15,6 +15,7 @@ const SessionProvider = (props) => {
         const currentUser = await authRepository.getCurrentUser();
         setCurrentUser(currentUser);
         setIsLoading(false);
+        console.log(currentUser)
     }
     if(isLoading) return <div />
 
