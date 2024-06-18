@@ -86,7 +86,7 @@ export const ModalArea = (props) => {
         <h3 className="text-lg font-semibold border-b-2 pb-2 mb-4">編集画面</h3>
         <input
           type="text"
-          className="text-gray-700 text-xl"
+          className="w-full text-gray-700 text-xl"
           defaultValue={props.getSelectedContent.content}
           onChange={(e) =>
             editContent(e.target.value, props.getSelectedContent.id)
