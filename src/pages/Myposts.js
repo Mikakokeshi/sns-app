@@ -5,14 +5,12 @@ import { SideMenu } from "../components/SideMenu";
 import { postRepository } from "../repositories/post";
 import { Post } from "../components/Post";
 import { Pagination } from "../components/Pagination";
-import { authRepository } from "../repositories/auth";
 import { ModalArea } from "../components/ModalArea";
-import { supabase } from "../lib/supabase";
 import { Header } from "../components/Header";
 
 const limit = 5;
 
-function Home() {
+function Myposts() {
   const { currentUser, setCurrentUser } = useContext(SessionContext);
 
   const [content, setContent] = useState("");
@@ -25,28 +23,8 @@ function Home() {
     fetchPosts();
   }, []);
 
-  const createPost = async () => {
-    const post = await postRepository.create(
-      content,
-      currentUser.id,
-      currentUser.email,
-      currentUser.userName
-    );
-
-    setPosts([
-      {
-        ...post,
-        user_id: currentUser.id,
-        user_name: currentUser.userName,
-        email: currentUser.email,
-      },
-      ...posts,
-    ]);
-    setContent("");
-  };
-
   const fetchPosts = async (page) => {
-    const posts = await postRepository.find(page, limit, currentUser.userName);
+    const posts = await postRepository.myposts(page, limit, currentUser.id);
     setPosts(posts);
 
     console.log(posts);
@@ -73,35 +51,11 @@ function Home() {
     return posts.find((post) => post.id === selectedContent);
   };
 
-  // const uploadImage = async (e) => {
-  //   let file = e.target.files[0];
-  //   console.log(currentUser.id + "/" + file.name);
-
-  //   const { data, error } = await supabase.storage
-  //     .from("images")
-  //     .upload(currentUser.id + "/" + file.name, file);
-  //   if (data) {
-  //     // getImages();
-  //     console.log("success upload image");
-  //   }
-  //   // if (error != null) throw new Error(error.message);
-  // };
-
-  // async function getImages() {
-  //   const { data, error } = await supabase.storage
-  //     .from("iamges")
-  //     .list(currentUser?.id + "/", {
-  //       limit: 100,
-  //       offset: 0,
-  //       sortBy: { column: "name", order: "asc" },
-  //     });
-  // }
-
   if (currentUser == null) return <Navigate replace to="/signin" />;
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Header setCurrentUser={setCurrentUser} />
+      <Header />
       <div className="container mx-auto mt-6 p-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2">
@@ -118,30 +72,6 @@ function Home() {
                 onChange={(e) => setContent(e.target.value)}
                 value={content}
               />
-              <from className="mb-3">
-                {/* <label
-                  for="formFileMultiple"
-                  class="mb-2 inline-block text-neutral-500 dark:text-neutral-400"
-                >
-                  Upload your image
-                </label>
-                <input
-                  class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
-                  type="file"
-                  id="formFileMultiple"
-                  onChange={(e) => {
-                    uploadImage(e);
-                  }}
-                /> */}
-
-                <button
-                  onClick={createPost}
-                  disabled={content === ""}
-                  className="mt-4 bg-[#444] text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Post
-                </button>
-              </from>
             </div>
             <div className="mt-4">
               {posts.map((post) => (
@@ -178,4 +108,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Myposts;
