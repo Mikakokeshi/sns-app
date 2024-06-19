@@ -4,7 +4,7 @@ import { SessionContext } from "../SessionProvider";
 export function Post(props) {
   const { currentUser } = useContext(SessionContext);
 
-  console.log(props.post);
+  // console.log(props.post);
   return (
     <div className="mt-4 bg-white p-4 rounded-lg shadow-md">
       <p className="text-lg">
@@ -21,7 +21,7 @@ export function Post(props) {
             onClick={() => props.onDelete(props.post.id)}
             className="text-blue-500 hover:underline cursor-pointer focus:outline-none pr-2"
           >
-            削除
+            Delete
           </button>
           <button
             onClick={() => {
@@ -30,7 +30,7 @@ export function Post(props) {
             }}
             className="text-blue-500 hover:underline cursor-pointer focus:outline-none"
           >
-            編集
+            Edit
           </button>
         </div>
       )}

@@ -5,9 +5,7 @@ import { SideMenu } from "../components/SideMenu";
 import { postRepository } from "../repositories/post";
 import { Post } from "../components/Post";
 import { Pagination } from "../components/Pagination";
-import { authRepository } from "../repositories/auth";
 import { ModalArea } from "../components/ModalArea";
-import { supabase } from "../lib/supabase";
 import { Header } from "../components/Header";
 
 const limit = 5;
@@ -47,6 +45,7 @@ function Home() {
 
   const fetchPosts = async (page) => {
     const posts = await postRepository.find(page, limit, currentUser.userName);
+
     setPosts(posts);
 
     console.log(posts);
@@ -101,7 +100,11 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Header setCurrentUser={setCurrentUser} />
+      <Header
+        setCurrentUser={setCurrentUser}
+        setPosts={setPosts}
+        fetchPosts={fetchPosts}
+      />
       <div className="container mx-auto mt-6 p-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2">

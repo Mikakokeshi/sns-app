@@ -19,7 +19,10 @@ function Signup() {
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center">
-        <h2 className="text-3xl font-extrabold text-gray-900">SNS APP</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900">
+          {" "}
+          React ✖️ Supabase SNS APP
+        </h2>
         <div className="mt-8 w-full max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <div className="space-y-6">
@@ -28,7 +31,7 @@ function Signup() {
                   className="block text-sm font-medium text-gray-700"
                   htmlFor="username"
                 >
-                  ユーザー名
+                  User Name
                 </label>
                 <div className="mt-1">
                   <input
@@ -37,7 +40,7 @@ function Signup() {
                     }}
                     id="username"
                     name="username"
-                    placeholder="ユーザー名"
+                    placeholder="User Name"
                     required
                     type="text"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -49,7 +52,7 @@ function Signup() {
                   className="block text-sm font-medium text-gray-700"
                   htmlFor="email"
                 >
-                  メールアドレス
+                  email
                 </label>
                 <div className="mt-1">
                   <input
@@ -58,7 +61,7 @@ function Signup() {
                     }}
                     id="email"
                     name="email"
-                    placeholder="メールアドレス"
+                    placeholder="email"
                     required
                     type="email"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -70,7 +73,7 @@ function Signup() {
                   className="block text-sm font-medium text-gray-700"
                   htmlFor="password"
                 >
-                  パスワード
+                  password *more than 6 characters
                 </label>
                 <div className="mt-1">
                   <input
@@ -79,7 +82,7 @@ function Signup() {
                     }}
                     id="password"
                     name="password"
-                    placeholder="パスワード"
+                    placeholder="password *more than 6 characters"
                     required
                     type="password"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

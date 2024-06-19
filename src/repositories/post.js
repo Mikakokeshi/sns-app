@@ -61,6 +61,24 @@ export const postRepository = {
     });
   },
 
+  async searchposts(content) {
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*")
+      .textSearch("content", content);
+    if (error != null) throw new Error(error.message);
+
+    return data.map((post) => {
+      return {
+        ...post,
+        content: post.content,
+        user_id: post.user_id,
+        user_name: post.user_name,
+        created_at: post.created_at,
+      };
+    });
+  },
+
   async delete(id) {
     const { error } = await supabase.from("posts").delete().eq("id", id);
     if (error != null) throw new Error(error.message);
