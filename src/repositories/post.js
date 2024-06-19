@@ -1,6 +1,7 @@
 import { supabase } from "../lib/supabase";
 
 export const postRepository = {
+  // 新規投稿
   async create(content, userId, email, user_name) {
     const { data, error } = await supabase
       .from("posts")
@@ -8,12 +9,13 @@ export const postRepository = {
         { content, user_id: userId, email: email, user_name: user_name },
       ])
       .select();
+    console.log(data);
 
     if (error != null) throw new Error(error.message);
-
     return data[0];
   },
 
+  // 投稿取得
   async find(page, limit) {
     page = isNaN(page) || page < 1 ? 1 : page;
     const start = limit * (page - 1);
@@ -37,6 +39,7 @@ export const postRepository = {
     });
   },
 
+  //自分の投稿のみ取得
   async myposts(page, limit, userId) {
     page = isNaN(page) || page < 1 ? 1 : page;
     const start = limit * (page - 1);
@@ -61,6 +64,7 @@ export const postRepository = {
     });
   },
 
+  // 文字検索機能
   async searchposts(content) {
     const { data, error } = await supabase
       .from("posts")
@@ -79,6 +83,7 @@ export const postRepository = {
     });
   },
 
+  //　投稿削除
   async delete(id) {
     const { error } = await supabase.from("posts").delete().eq("id", id);
     if (error != null) throw new Error(error.message);

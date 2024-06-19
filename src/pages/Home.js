@@ -7,6 +7,7 @@ import { Post } from "../components/Post";
 import { Pagination } from "../components/Pagination";
 import { ModalArea } from "../components/ModalArea";
 import { Header } from "../components/Header";
+import { supabase } from "../lib/supabase";
 
 const limit = 5;
 
@@ -45,9 +46,7 @@ function Home() {
 
   const fetchPosts = async (page) => {
     const posts = await postRepository.find(page, limit, currentUser.userName);
-
     setPosts(posts);
-
     console.log(posts);
   };
 

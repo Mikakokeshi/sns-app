@@ -83,10 +83,10 @@ export const ModalArea = (props) => {
         style={customStyles}
         onRequestClose={closeModal}
       >
-        <h3 className="text-lg font-semibold border-b-2 pb-2 mb-4">編集画面</h3>
+        <h3 className="text-lg font-semibold border-b-2 pb-2 mb-4">Editing</h3>
         <input
           type="text"
-          className="w-full text-gray-700 text-xl"
+          className="border w-full text-gray-700 text-xl p-2 borderRadius-2"
           defaultValue={props.getSelectedContent.content}
           onChange={(e) =>
             editContent(e.target.value, props.getSelectedContent.id)
@@ -100,7 +100,7 @@ export const ModalArea = (props) => {
             }}
             className="text-blue-500 hover:underline cursor-pointer focus:outline-none"
           >
-            保存
+            Save
           </button>
         </div>
       </Modal>
