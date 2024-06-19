@@ -5,20 +5,21 @@ import { LikeButton } from "./LikeButton";
 export function Post(props) {
   const { currentUser } = useContext(SessionContext);
 
-  // const user_id_list = props.likes.map((like) => like.user_id);
-
-  // console.log(user_id_list.includes(currentUser.id));
-
-  // console.log(props.post);
   return (
     <div className="mt-4 bg-white p-4 rounded-lg shadow-md">
       <div className="textArea pt-2">
+        <strong className="text-600">
+          @<span className="">{props.post.user_name}</span>
+        </strong>
         <p className="text-gray-700 text-xl pb-2">{props.post.content}</p>
-        <p className="text-xs">
-          {new Date(props.post.created_at).toLocaleString()}
-        </p>
       </div>
-      <div className="flex items-center lineHeight-1 pt-2 justify-between">
+      <div
+        className={`flex items-center lineHeight-1 py-2 ${
+          currentUser.id === props.post.user_id
+            ? "justify-between"
+            : "justify-end"
+        }`}
+      >
         {currentUser.id === props.post.user_id && (
           <div className="">
             <button
@@ -40,9 +41,8 @@ export function Post(props) {
         )}
         <LikeButton post={props.post} />
       </div>
-
-      <p className="text-xs">
-        @<span className="">{props.post.user_name}</span>
+      <p className="text-xs text-right">
+        {new Date(props.post.created_at).toLocaleString()}
       </p>
     </div>
   );
