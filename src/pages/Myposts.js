@@ -59,21 +59,7 @@ function Myposts() {
       <div className="container mx-auto mt-6 p-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2">
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <label
-                for="formFileMultiple"
-                class="mb-2 inline-block text-neutral-500 dark:text-neutral-400"
-              >
-                Share your thoughts
-              </label>
-              <textarea
-                className="w-full p-2 mb-4 border-2 border-gray-200 rounded-md"
-                placeholder="What's on your mind?"
-                onChange={(e) => setContent(e.target.value)}
-                value={content}
-              />
-            </div>
-            <div className="mt-4">
+            <div className="">
               {posts.map((post) => (
                 <div key={post.id}>
                   <Post

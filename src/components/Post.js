@@ -6,7 +6,7 @@ export function Post(props) {
   const { currentUser } = useContext(SessionContext);
 
   return (
-    <div className="mt-4 bg-white p-4 rounded-lg shadow-md">
+    <div className="mb-4 bg-white p-4 rounded-lg shadow-md">
       <div className="textArea pt-2">
         <strong className="text-600">
           @<span className="">{props.post.user_name}</span>

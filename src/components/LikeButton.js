@@ -22,6 +22,7 @@ export const LikeButton = (props) => {
 
     if (handle) {
       // いいねを追加
+      console.log("いいね");
       const { data, error } = await supabase
         .from("likes")
         .insert({
@@ -31,27 +32,20 @@ export const LikeButton = (props) => {
         .select();
 
       if (error != null) throw new Error(error.message);
-      // return data[0];
-      return data.map((like) => {
-        return setLikes([
-          {
-            ...like,
-            user_id: like.user_id,
-            post_id: like.post_id,
-          },
-          ...likes,
-        ]);
-      });
+
     } else {
       // いいねを削除
-      const { data, error } = await supabase
+      console.log("いいね削除");
+
+      const { error } = await supabase
         .from("likes")
         .delete()
         .match({ user_id: currentUser.id, post_id: contentId });
 
       if (error != null) throw new Error(error.message);
-      window.location.reload();
+      //   window.location.reload();
     }
+    setLoadingLike("");
   };
   // いいね投稿取得
   const fetchLikes = async () => {
@@ -67,53 +61,53 @@ export const LikeButton = (props) => {
       };
     });
   };
+  console.log(likes);
+  // いいねされてる投稿をリスト化
+  const post_id_list = likes.map((like) => like.post_id);
+  const user_id_list = likes.map((like) => like.user_id);
+  const found = post_id_list.find((post_id) => post_id === loadingLike);
 
-  // いいねしているユーザーをリスト化
+  console.log(
+    isLike,
+    currentUser.id,
+    props.post.user_id
+  );
 
-  if (currentUser) {
-    const post_id_list = likes.map((like) => like.post_id);
-    // const newLoadingLike = loadingLike.toString();
-    const found = post_id_list.find((post_id) => post_id === loadingLike);
-
-    console.log(
-      found,
-      post_id_list.includes(props.post.id),
-      post_id_list,
-      typeof loadingLike,
-      props.post.id
-    );
-    // if (loadingLike === props.post.id) {
-    //   // ローディング
-    //   return (
-    //     <div className="h-4 w-4 animate-spin rounded-full border border-yellow-500 border-t-transparent" />
-    //   );
-    // } else
-
-    if (post_id_list.includes(props.post.id)) {
-      // いいね済み
-      return (
-        <div
-          className="text-pink-500 cursor-pointer"
-          onClick={() => contentLike(props.post.id, false)}
-        >
-          <HeartIcon className="h-5 w-5" />
-        </div>
-      );
-    } else {
-      // いいね無し
-      return (
-        <div
-          className="text-gray-400 cursor-pointer"
-          onClick={() => contentLike(props.post.id, true)}
-        >
-          <HeartIcon className="h-5 w-5" />
-        </div>
-      );
-    }
-  } else {
-    // 初期値
+  if (loadingLike === props.post.id) {
+    // ローディング
     return (
-      <div className="text-gray-400">
+      <div className="h-4 w-4 animate-spin rounded-full border border-yellow-500 border-t-transparent" />
+    );
+  } else if (
+    //isLikeがTrueの場合
+
+    // ログインユーザーのID(currentUser.id)と投稿記事のユーザーID(props.post.user_id)が同じ場合 && データベースにログインユーザーIDが含まれている
+    isLike !== false ||
+    (currentUser.id === props.post.user_id &&
+      post_id_list.includes(props.post.id))
+  ) {
+    // いいね済み
+    console.log("いいね済み");
+
+    return (
+      <div
+        className="text-pink-500 cursor-pointer"
+        onClick={() => contentLike(props.post.id, false)}
+      >
+        <HeartIcon className="h-5 w-5" />
+      </div>
+    );
+  }
+
+  else {
+    // いいね無し
+    console.log("いいね無し");
+
+    return (
+      <div
+        className="text-gray-400 cursor-pointer"
+        onClick={() => contentLike(props.post.id, true)}
+      >
         <HeartIcon className="h-5 w-5" />
       </div>
     );
